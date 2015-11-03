@@ -1,0 +1,19 @@
+@(users: List[User])
+
+@main("Welcome to Play") {
+    <ul id="persons"></ul>
+
+    <form action="/insert" method="POST">
+        <input name="id" type="text" placeholder="id"/>
+        <input name="email" type="text" placeholder="email"/>
+        <input type="submit"/>
+    </form>
+
+    <h2>Previously inserted cats:</h2>
+    <table>
+        <tr><th>id</th><th>email</th></tr>
+        @for(u <- users){
+            <tr><td>@u.id</td><td>@u.email</td></tr>
+        }
+    </table>
+}

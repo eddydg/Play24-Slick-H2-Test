@@ -6,10 +6,13 @@
     <form action="/insert" method="POST">
         <input name="id" type="text" placeholder="id"/>
         <input name="email" type="text" placeholder="email"/>
+        <input name="password" type="text" placeholder="password"/>
+        <input name="isSuper" type="hidden" value="true" />
+        <input name="status" type="hidden" value="active" />
         <input type="submit"/>
     </form>
 
-    <h2>Previously inserted cats:</h2>
+    <h2>Previously inserted Users:</h2>
     <table>
         <tr><th>id</th><th>email</th></tr>
         @for(u <- users){

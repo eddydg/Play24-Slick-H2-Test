@@ -24,15 +24,4 @@ object Advertisers {
   def insert(advertisers: Seq[Advertiser]): Future[Unit] = advertisers.map(insert).head
 }
 
-/*
-object Advertisers extends TableQuery(new Advertisers(_)) {
-  val db = Database.forConfig("play")
-  lazy val query = TableQuery[Advertisers]
-
-  def all(): Future[List[Advertiser]] = db.run(query.result).map(_.toList)
-  def count(): Future[Int] = db.run(query.length.result)
-  def insert(user: Advertiser): Future[Unit] = db.run(query += user).map(_ => ())
-  def insert(advertisers: Seq[Advertiser]): Future[Unit] = advertisers.map(insert).head
-}
-*/
 

@@ -1,7 +1,6 @@
 import dao._
 import models.{Advertiser, AdvertiserAccess, User}
 import play.api._
-import slick.driver.H2Driver.api._
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -9,12 +8,6 @@ import scala.concurrent.duration.Duration
 object Global extends GlobalSettings {
 
   override def onStart(app: Application) {
-
-    val db = Database.forURL("jdbc:h2:mem:play;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
-
-    def storedUsers = Users
-    def storedAdvertisers = Advertisers
-    def storedAdvertiserAccess = AdvertiserAccesses
 
     val countUsers = Await.result(Users.count(), Duration.Inf)
     val countAdvertisers = Await.result(Advertisers.count(), Duration.Inf)
@@ -53,7 +46,6 @@ object Global extends GlobalSettings {
 
       Await.result(AdvertiserAccesses.insert(rows), Duration.Inf)
     }
-
   }
 
 }

@@ -26,15 +26,3 @@ object AdvertiserAccesses {
   def insert(aa: AdvertiserAccess): Future[Unit] = db.run(query += aa).map(_ => ())
   def insert(aas: Seq[AdvertiserAccess]): Future[Unit] = aas.map(insert).head
 }
-
-/*
-object AdvertiserAccesses extends TableQuery(new AdvertiserAccesses(_)) {
-  val db = Database.forConfig("play")
-  lazy val query = TableQuery[AdvertiserAccesses]
-
-  def all(): Future[List[AdvertiserAccess]] = db.run(query.result).map(_.toList)
-  def count(): Future[Int] = db.run(query.map(_.id).length.result)
-  def insert(aa: AdvertiserAccess): Future[Unit] = db.run(query += aa).map(_ => ())
-  def insert(aas: Seq[AdvertiserAccess]): Future[Unit] = aas.map(insert).head
-}
-*/

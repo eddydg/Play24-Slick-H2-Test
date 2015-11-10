@@ -1,4 +1,4 @@
-@(users: List[User])
+@(users: List[User], advertisers: List[Advertiser], advAccesses: List[AdvertiserAccess], filteredAdvs: Seq[Advertiser])
 
 @main("Welcome to Play") {
     <ul id="persons"></ul>
@@ -12,11 +12,42 @@
         <input type="submit"/>
     </form>
 
-    <h2>Previously inserted Users:</h2>
+    <h2>Users:</h2>
     <table>
         <tr><th>id</th><th>email</th></tr>
         @for(u <- users){
             <tr><td>@u.id</td><td>@u.email</td></tr>
+        }
+    </table>
+
+    <h2>Advertisers:</h2>
+    <table>
+        <tr><th>id</th><th>email</th></tr>
+        @for(a <- advertisers){
+            <tr><td>@a.id</td><td>@a.name</td></tr>
+        }
+    </table>
+
+    <h2>AdvertiserAccesses:</h2>
+    <table>
+        <tr><th>id</th><th>user id</th><th>advertiser id</th></tr>
+        @for(advAccess <- advAccesses){
+            <tr>
+                <td>@advAccess.advertiserAccessId</td>
+                <td>@advAccess.userId</td>
+                <td>@advAccess.advertiserId</td>
+            </tr>
+        }
+    </table>
+    <br/> <br/>
+    <h2>Filtered Advertisers:</h2>
+    <table>
+        <tr><th>id</th><th>name</th></tr>
+        @for(filteredAdv <- filteredAdvs){
+            <tr>
+                <td>@filteredAdv.id</td>
+                <td>@filteredAdv.name</td>
+            </tr>
         }
     </table>
 }

@@ -37,11 +37,11 @@ object Global extends GlobalSettings {
 
     if (countAdvertiserAccess == 0) {
       val rows = Seq(
-        AdvertiserAccess(None, 1, 1),
-        AdvertiserAccess(None, 1, 2),
-        AdvertiserAccess(None, 2, 1),
-        AdvertiserAccess(None, 2, 2),
-        AdvertiserAccess(None, 2, 3)
+        AdvertiserAccess(None, 1, 1, true),
+        AdvertiserAccess(None, 1, 2, false),
+        AdvertiserAccess(None, 2, 1, true),
+        AdvertiserAccess(None, 2, 2, false),
+        AdvertiserAccess(None, 2, 3, true)
       )
 
       Await.result(AdvertiserAccesses.insert(rows), Duration.Inf)

@@ -10,8 +10,9 @@ class AdvertiserAccesses(tag: Tag) extends Table[AdvertiserAccess](tag, "ADVERTI
   def id = column[Long]("advertiser_access_id", O.PrimaryKey, O.AutoInc)
   def userId = column[Long]("user_id")
   def advertiserId = column[Long]("advertiser_id")
+  def canWrite = column[Boolean]("can_write")
 
-  def * = (id.?, userId, advertiserId) <> ((AdvertiserAccess.apply _).tupled, AdvertiserAccess.unapply)
+  def * = (id.?, userId, advertiserId, canWrite) <> ((AdvertiserAccess.apply _).tupled, AdvertiserAccess.unapply)
 
   def userFK = foreignKey("user_fk", userId, Users.query)(_.id)
   def advertiserFK = foreignKey("advertiser_fk", advertiserId, Advertisers.query)(_.id)

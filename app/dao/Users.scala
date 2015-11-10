@@ -15,7 +15,7 @@ class Users(tag: Tag) extends Table[User](tag, "USER") {
 
   def * = (id.?, email, password, isSuper, status) <> ((User.apply _).tupled, User.unapply)
 
-  def advertisers = AdvertiserAccesses.query.filter(_.userId === id).flatMap(_.advertiserFK)
+  def advertisers = AdvertiserAccesses.query.filter(_.userId === id).map(aa => (aa.advertiserId, aa.canWrite))
 }
 
 object Users {
@@ -27,8 +27,8 @@ object Users {
   def insert(user: User): Future[Unit] = db.run(query += user).map(_ => ())
   def insert(users: Seq[User]): Future[Unit] = users.map(insert).head
 
-  def getAdverts(u: User): Future[Seq[Advertiser]] = {
-    val foo = u.advertisers
-    db.run(foo.result)
+  def getAdverts(u: User) = {
+    val query = u.advertisers
+    db.run(query.result)
   }
 }

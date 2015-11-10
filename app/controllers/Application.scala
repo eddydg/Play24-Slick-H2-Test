@@ -7,21 +7,41 @@ import play.api.data._
 import play.api.mvc.{Action, Controller}
 import slick.driver.H2Driver.api._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.Duration
 
 class Application extends Controller{
 
   val db = Database.forURL("jdbc:h2:mem:play;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
   //create an instance of the table
-  def index = Action.async {
-    Users.all.flatMap { case user => Users.getAdverts(user.head).flatMap { case myadv =>
+
+  def index = Action{
+    val users: List[User] = Await.result(Users.all, Duration.Inf)
+    val result: List[(User, Seq[(Advertiser, Boolean)])] = {
+      users.map{ user =>
+        val couple = Await.result(Users.getAdverts(user), Duration.Inf)
+        val adverts: Seq[(Advertiser, Boolean)] = couple.map{ x =>
+          val adv = Await.result(Advertisers.findById(x._1), Duration.Inf).get
+          (adv, x._2)
+        }
+        (user, adverts)
+      }
+    }
+    Ok(views.html.index(result))
+  }
+
+
+  /*def index = Action.async {
+    Users.all.flatMap { case user => Users.getAdverts(user.head).flatMap { case couple =>
       for {
         u <- db.run(Users.query.result).map(_.toList)
         a <- db.run(Advertisers.query.result).map(_.toList)
         aa <- db.run(AdvertiserAccesses.query.result).map(_.toList)
-      } yield Ok(views.html.index(u, a, aa, myadv))
+        adv <- Advertisers.findById(couple._1)
+      } yield Ok(views.html.index(u, a, aa, couple))
     }
     }
-  }
+  }*/
 
   val userForm = Form(
     mapping(

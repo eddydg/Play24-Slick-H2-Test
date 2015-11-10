@@ -1,7 +1,8 @@
-@(users: List[User], advertisers: List[Advertiser], advAccesses: List[AdvertiserAccess], filteredAdvs: Seq[Advertiser])
+@* @(users: List[User], advertisers: List[Advertiser], advAccesses: List[AdvertiserAccess], filteredAdvs: Seq[(Long, Boolean)]) *@
+@(test: List[(User, Seq[(Advertiser, Boolean)])])
 
 @main("Welcome to Play") {
-    <ul id="persons"></ul>
+@*    <ul id="persons"></ul>
 
     <form action="/insert" method="POST">
         <input name="id" type="text" placeholder="id"/>
@@ -45,9 +46,20 @@
         <tr><th>id</th><th>name</th></tr>
         @for(filteredAdv <- filteredAdvs){
             <tr>
-                <td>@filteredAdv.id</td>
-                <td>@filteredAdv.name</td>
+                <td>@filteredAdv._1</td>
+                <td>@filteredAdv._2</td>
             </tr>
         }
-    </table>
+    </table>*@
+
+    <h2>Magic</h2>
+    @for((user, couple) <- test){
+        <table>
+            <h2>n°<strong>@user.id</strong> @user.email</h2>
+            <tr><th>Advertiser ID</th><th>Advertiser Name</th><th>Can Write</th></tr>
+            @for((advertiser, canWrite) <- couple){
+                <tr><td>@advertiser.id</td><td>@advertiser.name</td><td>@canWrite</td></tr>
+            }
+        </table>
+    }
 }

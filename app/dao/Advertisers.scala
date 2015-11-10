@@ -20,6 +20,8 @@ object Advertisers {
 
   def all(): Future[List[Advertiser]] = db.run(query.result).map(_.toList)
   def count(): Future[Int] = db.run(query.length.result)
+  def findById(id: Long): Future[Option[Advertiser]] = db.run(query.filter(_.id === id).result.headOption)
+
   def insert(user: Advertiser): Future[Unit] = db.run(query += user).map(_ => ())
   def insert(advertisers: Seq[Advertiser]): Future[Unit] = advertisers.map(insert).head
 }

@@ -8,5 +8,6 @@ case class User(id: Option[Long], email: String, password: String, is_super: Boo
   def advertisers = for {
     user <- Users.query.filter(_.id === this.id)
     advert <- user.advertisers
+
   } yield advert
 }

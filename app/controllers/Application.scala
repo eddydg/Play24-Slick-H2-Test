@@ -2,17 +2,20 @@ package controllers
 
 import dao._
 import models._
+import play.api.Play
 import play.api.data.Forms._
 import play.api.data._
+import play.api.db.slick.DatabaseConfigProvider
 import play.api.mvc.{Action, Controller}
 import slick.driver.H2Driver.api._
+import slick.driver.JdbcProfile
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
 
 class Application extends Controller{
 
-  val db = Database.forURL("jdbc:h2:mem:play;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
+  val db = DatabaseConfigProvider.get[JdbcProfile](Play.current).db
   //create an instance of the table
 
   def index = Action{

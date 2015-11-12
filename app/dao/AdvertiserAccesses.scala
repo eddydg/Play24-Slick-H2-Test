@@ -1,7 +1,10 @@
 package dao
 
 import models.AdvertiserAccess
+import play.api.Play
+import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.H2Driver.api._
+import slick.driver.JdbcProfile
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -19,7 +22,7 @@ class AdvertiserAccesses(tag: Tag) extends Table[AdvertiserAccess](tag, "ADVERTI
 }
 
 object AdvertiserAccesses {
-  val db = Database.forURL("jdbc:h2:mem:play;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
+  val db = DatabaseConfigProvider.get[JdbcProfile](Play.current).db
   lazy val query = TableQuery[AdvertiserAccesses]
 
   def all(): Future[List[AdvertiserAccess]] = db.run(query.result).map(_.toList)

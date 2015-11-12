@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-create table "USER"(
+CREATE TABLE "USER"(
   user_id SERIAL NOT NULL PRIMARY KEY,
   user_email VARCHAR NOT NULL,
   user_password VARCHAR NOT NULL,
